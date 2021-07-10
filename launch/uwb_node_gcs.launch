@@ -4,18 +4,16 @@
     <arg name="send_buffer" default="100" />
     <arg name="send_freq" default="100" />
     <arg name="output" default="screen" />
-    <arg name="self_id" default="-1" />
-    <arg name="sim_latency" default="false" />
-    <arg name="latency_buffer_size" default="100" />
-    <node pkg="inf_uwb_ros" name="uwb_node" type="inf_uwb_ros_node" output="$(arg output)">
+    <arg name="self_id" default="4" />
+    <node pkg="inf_uwb_ros" name="uwb_node" type="inf_uwb_ros_node" output="$(arg output)" >
         <param name="serial_name" value="$(arg serial_name)" />
         <param name="baudrate" value="$(arg baudrate)" type="int" />
         <param name="send_buffer" value="$(arg send_buffer)" type="int" />
         <param name="send_freq" value="$(arg send_freq)" type="double" />
         <param name="recv_freq" value="100" type="double" />
         <param name="self_id" value="$(arg self_id)" type="int"/>
-        <param name="sim_latency" value="$(arg sim_latency)" type="bool" />
-        <param name="latency_buffer_size" value="$(arg latency_buffer_size)" type="int" />
+        <remap from="/planning/swarm_traj_recv" to="/planning/swarm_traj" />
+        <param name="groundnode" value="true" />
 
         <remap from="/swarm_expl/drone_state_send" to="/swarm_expl/drone_state_send_$(arg self_id)" />
         <remap from="/swarm_expl/drone_state_recv" to="/swarm_expl/drone_state_recv_$(arg self_id)" />
@@ -32,4 +30,5 @@
         <remap from="/planning/swarm_traj_recv" to="/planning/swarm_traj_recv_$(arg self_id)" />
         <remap from="/planning/swarm_traj_send" to="/planning/swarm_traj_send_$(arg self_id)" />
     </node>
+
 </launch>
